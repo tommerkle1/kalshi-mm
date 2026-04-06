@@ -1,0 +1,12 @@
+[strategy]
+min_spread_cents = 4        # minimum spread required before we quote (unused in synthetic model)
+max_position_per_market = 5 # max contracts held on one side at a time
+taker_fee_pct = 0.07        # 7% of expected profit (Kalshi standard taker fee)
+quote_offset_cents = 1      # cents below midpoint where we post our limit bid
+assumed_spread_cents = 3    # assumed bid-ask spread around midpoint (synthetic model only)
+
+[backtest]
+market_limit = 30           # number of settled markets to backtest
+series_ticker = "KXNBAGAME" # Kalshi series to pull markets from
+max_pages_per_market = 30   # max API pages per market (100 trades/page)
+starting_capital = 500.0    # simulated starting bankroll in dollars
