@@ -6,86 +6,83 @@ Automated market making backtest and (eventually) live bot for [Kalshi](https://
 
 ---
 
-## What this is
+## Backtest Results Summary
 
-A simple market-making strategy on Kalshi sports markets (NBA games to start). The bot:
+### ✅ BTC Hourly Markets (KXBTCD) — Promising
 
-1. Monitors the order book for markets where YES + NO prices leave a spread ≥ 4¢
-2. Posts limit bids on both sides (YES and NO), 1¢ inside the current spread
-3. Earns the spread when both sides fill across a round-trip
-4. Participates in Kalshi's Liquidity Incentive Program (LIP) for maker rebates
+Backtested on 16 highest-volume hourly BTC price markets from April 6, 2026.
 
-No directional bet. Pure spread capture.
+```
+Hours tested:         16
+Total fills:          144
+Round-trips:          74
+Profitable hours:     14/16 (87%)
+Avg YES price swing:  74¢
+Net P&L:              +$1.09
+Net ROI on $500:      +0.22%
+```
+
+**Why BTC works:** YES price oscillates 74¢ on average within a single hour. That bounce pattern fills both sides of a market maker's quotes repeatedly. 14 of 16 hours were profitable.
+
+**Risk identified:** One bad hour (-$3.55, `26APR0614`) where BTC dropped sharply and never recovered — one-way directional exposure accumulates against us. Mitigation: max position limit + early-hour exit if one side hits max before any fills on the other.
+
+### ❌ NBA Game Markets (KXNBAGAME) — Rejected
+
+```
+Markets tested:       29
+Profitable:           12/29 (41%)
+Net P&L:              -$10.57
+Net ROI on $500:      -2.11%
+```
+
+**Why NBA fails:** Game-winner markets trend one direction and settle hard at 1¢ or 99¢. No mean reversion. A market maker accumulates inventory on the losing side with no recovery path.
 
 ---
 
-## Backtest
+## Strategy
 
-The backtest uses **real Kalshi trade history** via the public API. No account or API key required.
+For each BTC hourly market ("will BTC be above $X at 3pm?"):
 
-It fetches settled NBA game markets, replays the trade stream, simulates fills when price moves through our limit orders, and reports P&L after Kalshi's 7% taker fee.
+1. Wait for YES price to enter the 5¢–95¢ uncertain zone
+2. Post limit bids 1¢ inside the mid on both YES and NO sides
+3. When price bounces back and forth, fills accumulate on both sides
+4. At settlement, longs in the winning outcome earn the profit; losers on the wrong side lose their cost basis
+5. Earn the spread on completed round-trips; pay 7% taker fee on profit
 
-### Install
+No directional view. Pure spread capture on price oscillation.
+
+---
+
+## What this is
+
+A market-making bot on Kalshi prediction markets. Two phases:
+
+**Phase 1 (now):** Backtest on historical settled markets. Validate that edge exists before deploying a dollar.
+
+**Phase 2:** Paper trade live. Run bot with real quotes but no capital commitment.
+
+**Phase 3:** Deploy capital. Start with $500, compound wins.
+
+---
+
+## Install
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Run
+## Run
 
 ```bash
-# Full backtest (fetches ~30 settled NBA game markets)
+# BTC hourly backtest (primary strategy)
+python backtest_btc.py
+
+# NBA game backtest (reference, shows why this series was rejected)
 python run_backtest.py
 
-# Dry run — show config and markets, don't simulate
+# Dry run — list markets without simulating
 python run_backtest.py --dry-run
 ```
-
-### Sample output
-
-```
-Kalshi Market Making Backtest
-==============================
-Config:
-  Series:           KXNBAGAME
-  Markets:          30
-  Min spread:       4¢
-  Max position:     5 contracts/side
-  Taker fee:        7%
-  Starting capital: $500
-
-Fetching 30 settled markets from series KXNBAGAME...
-  Found 30 finalized markets.
-
-  [1/30] KXNBAGAME-26APR02LALOKC-LAL — 487 trades, 12 fills, net P&L: $0.0312
-  ...
-
-==================================================
-  Kalshi Market Making Backtest Results
-==================================================
-  Markets analyzed:       30
-  Total fills:            142
-  Completed round-trips:  68
-  Fill win rate:          71.0%
-
-  Gross P&L:              $24.18
-  Fees paid:              $3.21
-  Net P&L:                $20.97
-  Net ROI on $500:        4.19%
-  Avg net per round-trip: $0.15
-
-  Profitable markets:     22 / 30
-==================================================
-```
-
----
-
-## What the output means
-
-- **Fill win rate** — % of individual fills that resolved in our favor at settlement
-- **Completed round-trips** — fills where we got on both sides of a market
-- **Net ROI** — total net P&L as % of starting capital (not annualized)
-- **Avg net per round-trip** — average profit after fees per completed round-trip
 
 ---
 
@@ -93,24 +90,24 @@ Fetching 30 settled markets from series KXNBAGAME...
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `min_spread_cents` | 4 | Minimum spread (¢) required before we quote |
+| `min_spread_cents` | 4 | Minimum spread (¢) before we quote |
 | `max_position_per_market` | 5 | Max contracts held per side per market |
 | `taker_fee_pct` | 0.07 | Kalshi taker fee (7% of expected profit) |
-| `quote_offset_cents` | 1 | How far inside the spread we post |
-| `market_limit` | 30 | Number of markets to backtest |
-| `series_ticker` | KXNBAGAME | Kalshi series to pull markets from |
+| `quote_offset_cents` | 1 | How far inside mid we post |
 | `starting_capital` | 500.0 | Simulated starting bankroll ($) |
 
 ---
 
 ## Next steps
 
-1. ✅ Backtest on NBA game markets
-2. Run on NFL, MLB, crypto price markets
-3. Validate LIP eligibility for sports markets
-4. Provision Hetzner VPS (Ashburn, ~$5/mo)
-5. Build live bot: Python + asyncio, WS order feed, REST order management
-6. Paper trade 48h on live markets before deploying capital
+1. ✅ Backtest on NBA game markets → rejected (one-directional, no bounce)
+2. ✅ Backtest on BTC hourly markets → promising (74¢ avg swing, 87% hourly win rate)
+3. Expand backtest — more BTC history (weeks of hourly data), vary position size and offset
+4. Run on other numeric series: ETH hourly, CPI, NFP, Fed rate markets
+5. Validate LIP eligibility for crypto markets
+6. Provision Hetzner VPS (Ashburn, ~$5/mo)
+7. Build live bot: Python + asyncio, WS order feed, REST order management
+8. Paper trade 48h before deploying capital
 
 ---
 
@@ -130,12 +127,22 @@ Order Manager
     → update position
     ↓
 Risk Module
-    → position limits
+    → max position per market
+    → one-sided inventory halt (if one side maxes before any fills on other)
     → 30% drawdown halt
     → Telegram alert on exceptions
 ```
 
-Deployment: Hetzner VPS (Ashburn) + systemd. All trading params in `config.toml`, no code changes needed to tune.
+Deployment: Hetzner VPS (Ashburn) + systemd. All trading params in `config.toml`.
+
+---
+
+## Kalshi fee structure
+
+- Taker fee: ~7% of expected profit on each winning contract
+- Maker fee: varies by series (some series have maker rebates via LIP)
+- Deposits: ACH/wire/PayPal free; debit card 2%
+- Liquidity Incentive Program (LIP): active Sep 2025 – Sep 2026; rewards resting orders that improve liquidity
 
 ---
 
