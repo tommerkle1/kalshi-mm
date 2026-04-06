@@ -1,0 +1,811 @@
+{
+  "n": 100,
+  "total_pnl": 22.980499999999996,
+  "wins": 69,
+  "fills": 1725,
+  "rts": 821,
+  "avg_swing": 0.7478000000000001,
+  "big_losses": 6,
+  "results": [
+    {
+      "hour": "26APR0201",
+      "pnl": -4.4794,
+      "fills": 13,
+      "rts": 3,
+      "swing": 0.7899999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0206",
+      "pnl": 2.8912,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.6799999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0207",
+      "pnl": -0.6643000000000009,
+      "fills": 15,
+      "rts": 5,
+      "swing": 0.49000000000000005,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0208",
+      "pnl": -0.9645999999999999,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.85,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0209",
+      "pnl": 1.3576999999999997,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.86,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0210",
+      "pnl": 1.544,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0211",
+      "pnl": 1.1718,
+      "fills": 10,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0212",
+      "pnl": -0.31900000000000006,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.51,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0213",
+      "pnl": -0.16199999999999992,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.8799999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0214",
+      "pnl": -5.101799999999999,
+      "fills": 13,
+      "rts": 3,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0215",
+      "pnl": 1.7387,
+      "fills": 17,
+      "rts": 10,
+      "swing": 0.71,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0216",
+      "pnl": 1.2435,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0217",
+      "pnl": 1.9718000000000002,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.74,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0218",
+      "pnl": 1.4634999999999994,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0219",
+      "pnl": 0.7504999999999993,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0220",
+      "pnl": 0.6543999999999996,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.7999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0221",
+      "pnl": 2.0646,
+      "fills": 10,
+      "rts": 10,
+      "swing": 0.3899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0222",
+      "pnl": 1.7502999999999997,
+      "fills": 17,
+      "rts": 10,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0223",
+      "pnl": 1.8394000000000001,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0300",
+      "pnl": 1.5486000000000002,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.7899999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0301",
+      "pnl": 1.3026000000000004,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.75,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0302",
+      "pnl": 1.9292000000000002,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0303",
+      "pnl": -0.2381000000000002,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.74,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0304",
+      "pnl": 2.2201000000000004,
+      "fills": 12,
+      "rts": 10,
+      "swing": 0.86,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0305",
+      "pnl": 1.8410999999999997,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.88,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0306",
+      "pnl": 2.4157000000000006,
+      "fills": 17,
+      "rts": 10,
+      "swing": 0.6,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0307",
+      "pnl": 1.0952000000000004,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.5499999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0308",
+      "pnl": -0.6335999999999997,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.79,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0309",
+      "pnl": -4.659,
+      "fills": 13,
+      "rts": 3,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0310",
+      "pnl": 1.6087,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8099999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0311",
+      "pnl": -6.9399999999999995,
+      "fills": 10,
+      "rts": 0,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0312",
+      "pnl": 1.1816000000000004,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.7,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0313",
+      "pnl": -7.890000000000001,
+      "fills": 10,
+      "rts": 0,
+      "swing": 0.8099999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0314",
+      "pnl": 0.18110000000000026,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.83,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0315",
+      "pnl": 1.525,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.53,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0316",
+      "pnl": 1.5591000000000004,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.53,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0318",
+      "pnl": -6.31,
+      "fills": 10,
+      "rts": 0,
+      "swing": 0.74,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0319",
+      "pnl": 1.571799999999999,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.86,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0320",
+      "pnl": 1.0184000000000002,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.7899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0321",
+      "pnl": 1.4276999999999989,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8099999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0322",
+      "pnl": -0.20799999999999919,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.5599999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0323",
+      "pnl": -0.15279999999999994,
+      "fills": 16,
+      "rts": 6,
+      "swing": 0.35,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0400",
+      "pnl": 2.0008999999999997,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.47000000000000003,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0401",
+      "pnl": -0.3591,
+      "fills": 7,
+      "rts": 1,
+      "swing": 0.15000000000000002,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0402",
+      "pnl": 0.9015999999999996,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.7999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0403",
+      "pnl": -3.1046000000000005,
+      "fills": 13,
+      "rts": 3,
+      "swing": 0.8899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0404",
+      "pnl": 2.0341000000000005,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8099999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0405",
+      "pnl": 1.3206,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8099999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0406",
+      "pnl": 1.2021999999999993,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.45,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0407",
+      "pnl": 1.1767000000000003,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8799999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0408",
+      "pnl": 1.9815,
+      "fills": 19,
+      "rts": 10,
+      "swing": 0.6199999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0409",
+      "pnl": 0.2823000000000001,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.85,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0410",
+      "pnl": -1.1787,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.8999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0411",
+      "pnl": 2.664,
+      "fills": 18,
+      "rts": 10,
+      "swing": 0.74,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0412",
+      "pnl": -2.8382,
+      "fills": 15,
+      "rts": 5,
+      "swing": 0.83,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0413",
+      "pnl": 1.3468,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.57,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0414",
+      "pnl": 1.3410999999999993,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.49999999999999994,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0415",
+      "pnl": 1.5105999999999997,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.7699999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0416",
+      "pnl": 1.7517999999999996,
+      "fills": 14,
+      "rts": 10,
+      "swing": 0.59,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0417",
+      "pnl": 1.5375,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.59,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0418",
+      "pnl": 1.9426,
+      "fills": 18,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0419",
+      "pnl": 1.6379000000000001,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.85,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0420",
+      "pnl": -6.698100000000001,
+      "fills": 11,
+      "rts": 1,
+      "swing": 0.8099999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0421",
+      "pnl": -0.4,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0422",
+      "pnl": -0.8170000000000007,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.8899999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0423",
+      "pnl": -0.22579999999999995,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.83,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0500",
+      "pnl": 1.332,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.58,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0501",
+      "pnl": 1.1771999999999996,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0502",
+      "pnl": 1.3640999999999996,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.6699999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0503",
+      "pnl": 2.0103,
+      "fills": 15,
+      "rts": 10,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0504",
+      "pnl": 1.8569000000000004,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8799999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0505",
+      "pnl": -2.7433,
+      "fills": 15,
+      "rts": 5,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0506",
+      "pnl": -3.7346999999999992,
+      "fills": 14,
+      "rts": 4,
+      "swing": 0.7899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0507",
+      "pnl": 0.11620000000000014,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.6499999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0508",
+      "pnl": 0.6149999999999998,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.7799999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0509",
+      "pnl": -8.690000000000001,
+      "fills": 10,
+      "rts": 0,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0510",
+      "pnl": 1.3504999999999994,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.42,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0511",
+      "pnl": 0.09169999999999989,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.73,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0512",
+      "pnl": 2.5202999999999998,
+      "fills": 10,
+      "rts": 10,
+      "swing": 0.88,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0513",
+      "pnl": 0.9026000000000006,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.88,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0514",
+      "pnl": 0.29550000000000076,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.7899999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0515",
+      "pnl": 1.8922000000000003,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.6599999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0516",
+      "pnl": 1.3080000000000003,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.6799999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0517",
+      "pnl": -1.3974999999999995,
+      "fills": 15,
+      "rts": 5,
+      "swing": 0.86,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0518",
+      "pnl": 2.1819,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8099999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0519",
+      "pnl": 1.6288999999999998,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.8999999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0520",
+      "pnl": 1.8286,
+      "fills": 11,
+      "rts": 10,
+      "swing": 0.6399999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0521",
+      "pnl": 1.7593,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.76,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0522",
+      "pnl": -3.7045000000000003,
+      "fills": 14,
+      "rts": 4,
+      "swing": 0.8899999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0523",
+      "pnl": 1.7298,
+      "fills": 10,
+      "rts": 10,
+      "swing": 0.61,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0600",
+      "pnl": -0.6891000000000005,
+      "fills": 17,
+      "rts": 7,
+      "swing": 0.75,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0601",
+      "pnl": 1.7000000000000002,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.84,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0602",
+      "pnl": 1.3392999999999997,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.58,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0603",
+      "pnl": -0.8762999999999985,
+      "fills": 18,
+      "rts": 8,
+      "swing": 0.8999999999999999,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0604",
+      "pnl": 1.467299999999998,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.75,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0605",
+      "pnl": 0.780499999999999,
+      "fills": 19,
+      "rts": 9,
+      "swing": 0.6599999999999999,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0606",
+      "pnl": 3.0969,
+      "fills": 10,
+      "rts": 10,
+      "swing": 0.85,
+      "yes_won": false
+    },
+    {
+      "hour": "26APR0607",
+      "pnl": -1.3561999999999999,
+      "fills": 14,
+      "rts": 4,
+      "swing": 0.38,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0608",
+      "pnl": 1.4975999999999998,
+      "fills": 20,
+      "rts": 10,
+      "swing": 0.76,
+      "yes_won": true
+    },
+    {
+      "hour": "26APR0609",
+      "pnl": -2.825900000000001,
+      "fills": 16,
+      "rts": 6,
+      "swing": 0.88,
+      "yes_won": false
+    }
+  ]
+}
