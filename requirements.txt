@@ -1,1 +1,5 @@
-requests>=2.31.0
+requests>=2.31
+aiohttp>=3.9
+websockets>=12.0
+cryptography>=42.0
+tomllib; python_version < "3.11"

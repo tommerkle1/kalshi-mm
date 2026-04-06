@@ -1,12 +1,38 @@
 [strategy]
-min_spread_cents = 4        # minimum spread required before we quote (unused in synthetic model)
-max_position_per_market = 5 # max contracts held on one side at a time
-taker_fee_pct = 0.07        # 7% of expected profit (Kalshi standard taker fee)
-quote_offset_cents = 1      # cents below midpoint where we post our limit bid
-assumed_spread_cents = 3    # assumed bid-ask spread around midpoint (synthetic model only)
+series_ticker     = "KXBTCD"  # BTC hourly above/below markets
+max_position      = 10        # max contracts held per side per market
+quote_offset      = 0.01      # post 1¢ inside mid-price
+taker_fee         = 0.07      # 7% of expected profit (Kalshi taker fee)
+min_price         = 0.05      # don't quote when YES < 5¢ or > 95¢
+max_price         = 0.95
+min_swing_filter  = 0.10      # skip markets with <10¢ observed swing (too flat)
+max_concurrent    = 5         # max simultaneous open markets
+
+[risk]
+max_drawdown_pct  = 0.20      # kill switch: halt if account drops 20% from peak
+max_loss_per_hour = 10.00     # halt specific market if hourly loss exceeds $10
+position_hard_cap = 20        # absolute max contracts on one side across all markets
+
+[live]
+dry_run           = true      # ALWAYS start dry — flip to false after paper trade
+api_key           = ""        # set via env: KALSHI_API_KEY
+api_secret        = ""        # set via env: KALSHI_API_SECRET (RSA private key path)
+ws_url            = "wss://api.elections.kalshi.com/trade-api/ws/v2"
+rest_url          = "https://api.elections.kalshi.com/trade-api/v2"
+poll_interval_sec = 1.0       # seconds between market scan cycles
+
+[alerts]
+telegram_token    = ""        # set via env: FORGE_TELEGRAM_TOKEN
+telegram_chat_id  = ""        # set via env: FORGE_TELEGRAM_CHAT_ID
+alert_on_fill     = true
+alert_on_halt     = true
+alert_on_error    = true
+pnl_report_hours  = 6         # send P&L summary every N hours
 
 [backtest]
-market_limit = 30           # number of settled markets to backtest
-series_ticker = "KXNBAGAME" # Kalshi series to pull markets from
-max_pages_per_market = 30   # max API pages per market (100 trades/page)
-starting_capital = 500.0    # simulated starting bankroll in dollars
+series_ticker     = "KXBTCD"
+starting_capital  = 500.0
+max_position      = 10
+quote_offset      = 0.01
+taker_fee         = 0.07
+min_vol           = 30000
