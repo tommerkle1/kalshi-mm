@@ -127,11 +127,49 @@ class KalshiREST:
         data = self._req("GET", f"/markets/{ticker}")
         return data.get("market", {})
 
-    def get_active_markets(self, series: str = "KXBTCD") -> list:
-        """Get currently open/active markets for a series."""
-        params = {"series_ticker": series, "status": "open", "limit": 100}
-        data = self._req("GET", "/markets", params=params)
-        return data.get("markets", [])
+    def get_active_markets(self, series: str = "KXBTCD", btc_price: float = None, band_pct: float = 0.05) -> list:
+        """
+        Get currently open/active markets for a series.
+        Fetches all pages, filters by strike proximity to btc_price,
+        then sorts by (nearest close_time first, highest volume first).
+        """
+        all_markets = []
+        cursor = None
+        for _ in range(10):  # max 10 pages
+            params = {"series_ticker": series, "status": "open", "limit": 200}
+            if cursor:
+                params["cursor"] = cursor
+            data = self._req("GET", "/markets", params=params)
+            batch = data.get("markets", [])
+            all_markets.extend(batch)
+            cursor = data.get("cursor")
+            if not cursor or not batch:
+                break
+
+        if btc_price and all_markets:
+            lo = btc_price * (1 - band_pct)
+            hi = btc_price * (1 + band_pct)
+            filtered = []
+            for m in all_markets:
+                ticker = m.get("ticker", "")
+                try:
+                    strike = float(ticker.split("-T")[-1])
+                    if lo <= strike <= hi:
+                        filtered.append(m)
+                except (ValueError, IndexError):
+                    pass
+            all_markets = filtered if filtered else all_markets
+
+        # Sort: nearest close_time first, then by volume descending
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        def sort_key(m):
+            ct = m.get("close_time", "9999")
+            vol = float(m.get("volume_fp") or 0)
+            return (ct, -vol)
+
+        all_markets.sort(key=sort_key)
+        return all_markets
 
     def get_orderbook(self, ticker: str) -> dict:
         data = self._req("GET", f"/markets/{ticker}/orderbook")

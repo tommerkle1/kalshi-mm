@@ -114,8 +114,22 @@ async def main(live: bool = False):
                 strategy.cancel_all_markets()
                 break
 
-            # Discover currently open markets
-            markets = client.get_active_markets(series=series)
+            # Get live BTC price for strike filtering
+            btc_price = None
+            try:
+                import requests as _req
+                r = _req.get("https://api.coinbase.com/v2/prices/BTC-USD/spot", timeout=5)
+                btc_price = float(r.json()["data"]["amount"])
+                logger.debug(f"BTC spot: ${btc_price:,.0f}")
+            except Exception:
+                pass
+
+            # Discover currently open markets near current BTC price
+            markets = client.get_active_markets(series=series, btc_price=btc_price, band_pct=0.05)
+            if not markets:
+                # Fallback: wider band or no filter
+                markets = client.get_active_markets(series=series, btc_price=btc_price, band_pct=0.10)
+            logger.info(f"Active markets near ${btc_price:,.0f}: {len(markets)}")
             new_tickers = {m["ticker"] for m in markets}
             # Clear error suppression for any tickers no longer in the active list
             _error_tickers -= (active_tickers - new_tickers)
@@ -139,24 +153,19 @@ async def main(live: bool = False):
                 active_tickers = new_tickers.copy()
                 logger.info(f"Subscribed WS to {len(new_tickers)} markets")
 
-            # In dry run: poll orderbook via REST
+            # In dry run: use market object bid/ask directly (skip broken orderbook endpoint)
             if dry_run:
+                quoted = 0
                 for market in markets[:cfg["strategy"]["max_concurrent"]]:
                     ticker = market["ticker"]
-                    # Skip tickers that have been erroring — they may have settled
-                    if ticker in _error_tickers:
-                        continue
-                    try:
-                        ob = client.get_orderbook(ticker)
-                        _error_counts.pop(ticker, None)
-                        strategy.on_orderbook(ticker, ob)
-                    except Exception as e:
-                        _error_counts[ticker] = _error_counts.get(ticker, 0) + 1
-                        if _error_counts[ticker] <= 2:
-                            logger.warning(f"Orderbook fetch error {ticker}: {e}")
-                        elif _error_counts[ticker] == 3:
-                            logger.warning(f"Suppressing further errors for {ticker} — skipping until next market refresh")
-                            _error_tickers.add(ticker)
+                    bid = float(market.get("yes_bid_dollars") or 0)
+                    ask = float(market.get("yes_ask_dollars") or 1)
+                    if bid == 0 and ask >= 1.0:
+                        continue  # no market yet, skip
+                    strategy.on_orderbook(ticker, market)
+                    quoted += 1
+                if quoted:
+                    logger.info(f"Quoted {quoted} markets | BTC=${btc_price:,.0f}")
 
             # Periodic P&L report
             if time.time() - last_report >= report_every:

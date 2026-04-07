@@ -58,17 +58,44 @@ class MMStrategy:
     # ── Orderbook update ─────────────────────────────────────────────────────
 
     def on_orderbook(self, ticker: str, data: dict):
+        """
+        Accept either:
+          - Kalshi market object (has yes_bid_dollars / yes_ask_dollars)
+          - Legacy orderbook format (has yes.bids / yes.asks nested lists)
+          - WS orderbook_delta/snapshot (same nested format)
+        """
         state = self.get_or_create(ticker)
-        yes_bids = data.get("yes", {}).get("bids", [])
-        yes_asks = data.get("yes", {}).get("asks", [])
 
-        if yes_bids:
-            state.best_yes_bid = float(yes_bids[0][0]) / 100
-        if yes_asks:
-            state.best_yes_ask = float(yes_asks[0][0]) / 100
+        # Market-list format: yes_bid_dollars / yes_ask_dollars as dollar strings
+        if "yes_bid_dollars" in data or "yes_ask_dollars" in data:
+            bid_str = data.get("yes_bid_dollars", "0")
+            ask_str = data.get("yes_ask_dollars", "1")
+            try:
+                bid = float(bid_str) if bid_str else 0.0
+                ask = float(ask_str) if ask_str else 1.0
+                if bid > 0 or ask < 1.0:
+                    state.best_yes_bid = bid
+                    state.best_yes_ask = ask
+                    state.best_no_bid  = round(1.0 - ask, 4)
+                    state.best_no_ask  = round(1.0 - bid, 4)
+                    self._maybe_requote(state)
+            except (ValueError, TypeError):
+                pass
+            return
 
-        state.best_no_bid = 1.0 - state.best_yes_ask
-        state.best_no_ask = 1.0 - state.best_yes_bid
+        # Legacy orderbook endpoint format
+        yes_levels = data.get("yes", [])
+        no_levels  = data.get("no",  [])
+        if yes_levels:
+            # Each level: [price_cents, quantity]
+            bids = [l for l in yes_levels if isinstance(l, list) and len(l) >= 2]
+            if bids:
+                state.best_yes_bid = float(bids[0][0]) / 100
+        if no_levels:
+            bids = [l for l in no_levels if isinstance(l, list) and len(l) >= 2]
+            if bids:
+                state.best_no_bid = float(bids[0][0]) / 100
+                state.best_yes_ask = round(1.0 - state.best_no_bid, 4)
 
         self._maybe_requote(state)
 
