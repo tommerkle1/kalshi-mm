@@ -103,6 +103,7 @@ class MMStrategy:
             state.best_no_ask = round(1.0 - state.best_yes_bid, 4)
 
         if updated:
+            self._simulate_fills(state)
             self._maybe_requote(state)
 
     def on_trade(self, ticker: str, data: dict):
@@ -124,6 +125,38 @@ class MMStrategy:
             logger.warning(f"{state.ticker}: hourly loss limit hit (${state.pnl:.2f})")
             return False
         return True
+
+    def _simulate_fills(self, state: MarketState):
+        """
+        Dry-run fill simulation: if the market's best ask has crossed
+        below our resting bid price, assume we got filled.
+
+        YES fill: market YES ask (= 1 - best_no_bid) <= our YES bid
+        NO  fill: market NO  ask (= 1 - best_yes_bid) <= our NO  bid
+        """
+        # YES side: we bid at open_yes_price; we fill if market ask <= our bid
+        if (state.open_yes_order_id and state.open_yes_price > 0
+                and state.best_yes_ask > 0
+                and state.best_yes_ask <= state.open_yes_price
+                and state.yes_position < self.max_pos):
+            state.yes_position += 1
+            fill = {"side": "yes", "price": state.open_yes_price, "count": 1}
+            state.fills.append(fill)
+            state.open_yes_order_id = None
+            logger.info(f"{state.ticker}: [SIM] FILL YES @ {state.open_yes_price:.2f}"
+                        f"  (market ask={state.best_yes_ask:.2f})")
+
+        # NO side: we bid at open_no_price; we fill if market NO ask <= our bid
+        if (state.open_no_order_id and state.open_no_price > 0
+                and state.best_no_ask > 0
+                and state.best_no_ask <= state.open_no_price
+                and state.no_position < self.max_pos):
+            state.no_position += 1
+            fill = {"side": "no", "price": state.open_no_price, "count": 1}
+            state.fills.append(fill)
+            state.open_no_order_id = None
+            logger.info(f"{state.ticker}: [SIM] FILL NO  @ {state.open_no_price:.2f}"
+                        f"  (market ask={state.best_no_ask:.2f})")
 
     def _maybe_requote(self, state: MarketState):
         if not self._should_quote(state):
