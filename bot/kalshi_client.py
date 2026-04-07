@@ -27,12 +27,8 @@ WS_URL   = "wss://api.elections.kalshi.com/trade-api/ws/v2"
 
 
 def _load_private_key():
-    key_path = os.environ.get("KALSHI_PRIVATE_KEY", "")
-    if not key_path or not Path(key_path).exists():
-        raise EnvironmentError(
-            "KALSHI_PRIVATE_KEY env var must point to your RSA private key PEM file.\n"
-            "Download it from: https://kalshi.com/profile/api"
-        )
+    from bot.secrets import get_private_key_path
+    key_path = get_private_key_path()
     with open(key_path, "rb") as f:
         return serialization.load_pem_private_key(f.read(), password=None)
 
@@ -46,9 +42,10 @@ def _sign(method: str, path: str, timestamp_ms: int) -> str:
 
 
 def _auth_headers(method: str, path: str) -> dict:
-    api_key = os.environ.get("KALSHI_API_KEY", "")
+    from bot.secrets import get_api_key
+    api_key = get_api_key()
     if not api_key:
-        raise EnvironmentError("KALSHI_API_KEY env var not set.")
+        raise EnvironmentError("Kalshi API key not found in env or Secret Manager.")
     ts = int(datetime.now(timezone.utc).timestamp() * 1000)
     sig = _sign(method, path, ts)
     return {
