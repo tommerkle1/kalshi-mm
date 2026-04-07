@@ -19,7 +19,7 @@ api_key           = ""        # set via env: KALSHI_API_KEY
 api_secret        = ""        # set via env: KALSHI_API_SECRET (RSA private key path)
 ws_url            = "wss://api.elections.kalshi.com/trade-api/ws/v2"
 rest_url          = "https://api.elections.kalshi.com/trade-api/v2"
-poll_interval_sec = 1.0       # seconds between market scan cycles
+poll_interval_sec = 5.0       # seconds between market scan cycles
 
 [alerts]
 telegram_token    = ""        # set via env: FORGE_TELEGRAM_TOKEN

@@ -86,6 +86,8 @@ async def main(live: bool = False):
     report_every = int(cfg["alerts"]["pnl_report_hours"]) * 3600
     last_report  = time.time()
     active_tickers: set[str] = set()
+    _error_counts: dict = {}   # ticker → consecutive error count
+    _error_tickers: set[str] = set()  # tickers suppressed until next market refresh
 
     # ── WS message handler ───────────────────────────────────────────────────
     async def on_ws_message(channel: str, ticker: str, data: dict):
@@ -115,6 +117,8 @@ async def main(live: bool = False):
             # Discover currently open markets
             markets = client.get_active_markets(series=series)
             new_tickers = {m["ticker"] for m in markets}
+            # Clear error suppression for any tickers no longer in the active list
+            _error_tickers -= (active_tickers - new_tickers)
 
             # Cancel orders + record settlement for markets that just closed
             closed = active_tickers - new_tickers
@@ -139,11 +143,20 @@ async def main(live: bool = False):
             if dry_run:
                 for market in markets[:cfg["strategy"]["max_concurrent"]]:
                     ticker = market["ticker"]
+                    # Skip tickers that have been erroring — they may have settled
+                    if ticker in _error_tickers:
+                        continue
                     try:
                         ob = client.get_orderbook(ticker)
+                        _error_counts.pop(ticker, None)
                         strategy.on_orderbook(ticker, ob)
                     except Exception as e:
-                        logger.warning(f"Orderbook fetch error {ticker}: {e}")
+                        _error_counts[ticker] = _error_counts.get(ticker, 0) + 1
+                        if _error_counts[ticker] <= 2:
+                            logger.warning(f"Orderbook fetch error {ticker}: {e}")
+                        elif _error_counts[ticker] == 3:
+                            logger.warning(f"Suppressing further errors for {ticker} — skipping until next market refresh")
+                            _error_tickers.add(ticker)
 
             # Periodic P&L report
             if time.time() - last_report >= report_every:
