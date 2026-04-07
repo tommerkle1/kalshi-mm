@@ -153,17 +153,33 @@ async def main(live: bool = False):
                 active_tickers = new_tickers.copy()
                 logger.info(f"Subscribed WS to {len(new_tickers)} markets")
 
-            # In dry run: use market object bid/ask directly (skip broken orderbook endpoint)
+            # In dry run: poll orderbook via REST (orderbook_fp format)
             if dry_run:
                 quoted = 0
                 for market in markets[:cfg["strategy"]["max_concurrent"]]:
                     ticker = market["ticker"]
-                    bid = float(market.get("yes_bid_dollars") or 0)
-                    ask = float(market.get("yes_ask_dollars") or 1)
-                    if bid == 0 and ask >= 1.0:
-                        continue  # no market yet, skip
-                    strategy.on_orderbook(ticker, market)
-                    quoted += 1
+                    if ticker in _error_tickers:
+                        continue
+                    try:
+                        ob = client.get_orderbook(ticker)
+                        _error_counts.pop(ticker, None)
+                        if ob.get("yes_dollars") or ob.get("no_dollars"):
+                            strategy.on_orderbook(ticker, ob)
+                            quoted += 1
+                        else:
+                            # Fallback to market object bid/ask
+                            bid = float(market.get("yes_bid_dollars") or 0)
+                            ask = float(market.get("yes_ask_dollars") or 1)
+                            if 0 < bid < 1 or 0 < ask < 1:
+                                strategy.on_orderbook(ticker, market)
+                                quoted += 1
+                    except Exception as e:
+                        _error_counts[ticker] = _error_counts.get(ticker, 0) + 1
+                        if _error_counts[ticker] <= 2:
+                            logger.warning(f"Orderbook fetch error {ticker}: {e}")
+                        elif _error_counts[ticker] == 3:
+                            logger.warning(f"Suppressing {ticker} after repeated errors")
+                            _error_tickers.add(ticker)
                 if quoted:
                     logger.info(f"Quoted {quoted} markets | BTC=${btc_price:,.0f}")
 

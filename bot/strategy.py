@@ -83,21 +83,27 @@ class MMStrategy:
                 pass
             return
 
-        # Legacy orderbook endpoint format
-        yes_levels = data.get("yes", [])
-        no_levels  = data.get("no",  [])
+        # orderbook_fp format: yes_dollars / no_dollars arrays, sorted ascending
+        # Best bid = LAST element. Format: ["0.4900", "13.00"]
+        yes_levels = data.get("yes_dollars", [])
+        no_levels  = data.get("no_dollars",  [])
+        updated = False
         if yes_levels:
-            # Each level: [price_cents, quantity]
-            bids = [l for l in yes_levels if isinstance(l, list) and len(l) >= 2]
-            if bids:
-                state.best_yes_bid = float(bids[0][0]) / 100
+            best_yes_bid = float(yes_levels[-1][0])  # last = highest bid
+            state.best_yes_bid = best_yes_bid
+            updated = True
         if no_levels:
-            bids = [l for l in no_levels if isinstance(l, list) and len(l) >= 2]
-            if bids:
-                state.best_no_bid = float(bids[0][0]) / 100
-                state.best_yes_ask = round(1.0 - state.best_no_bid, 4)
+            best_no_bid = float(no_levels[-1][0])
+            state.best_no_bid = best_no_bid
+            # YES ask is implied: $1.00 - best NO bid
+            state.best_yes_ask = round(1.0 - best_no_bid, 4)
+            updated = True
+        if yes_levels:
+            # NO ask implied: $1.00 - best YES bid
+            state.best_no_ask = round(1.0 - state.best_yes_bid, 4)
 
-        self._maybe_requote(state)
+        if updated:
+            self._maybe_requote(state)
 
     def on_trade(self, ticker: str, data: dict):
         state = self.get_or_create(ticker)

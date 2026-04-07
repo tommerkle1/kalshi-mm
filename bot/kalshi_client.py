@@ -172,8 +172,14 @@ class KalshiREST:
         return all_markets
 
     def get_orderbook(self, ticker: str) -> dict:
+        """
+        Returns orderbook_fp dict with yes_dollars and no_dollars arrays.
+        Each array is sorted ascending; last element is best bid.
+        Format: [["0.4900", "13.00"], ...]  → [price_dollars_str, count_fp_str]
+        No auth required but we send it anyway (harmless).
+        """
         data = self._req("GET", f"/markets/{ticker}/orderbook")
-        return data.get("orderbook", {})
+        return data.get("orderbook_fp", {})
 
 
 # ── WebSocket client ──────────────────────────────────────────────────────────
