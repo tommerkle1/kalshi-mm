@@ -34,11 +34,20 @@ def _load_private_key():
 
 
 def _sign(method: str, path: str, timestamp_ms: int) -> str:
-    """Generate Kalshi request signature."""
+    """Generate Kalshi request signature (PSS padding, SHA-256, DIGEST_LENGTH salt)."""
     private_key = _load_private_key()
-    msg = f"{timestamp_ms}{method.upper()}{path}"
-    signature = private_key.sign(msg.encode(), padding.PKCS1v15(), hashes.SHA256())
-    return base64.b64encode(signature).decode()
+    # Strip query params — Kalshi signs path only, no ?params
+    clean_path = path.split("?")[0]
+    msg = f"{timestamp_ms}{method.upper()}{clean_path}"
+    signature = private_key.sign(
+        msg.encode("utf-8"),
+        padding.PSS(
+            mgf=padding.MGF1(hashes.SHA256()),
+            salt_length=padding.PSS.DIGEST_LENGTH,
+        ),
+        hashes.SHA256(),
+    )
+    return base64.b64encode(signature).decode("utf-8")
 
 
 def _auth_headers(method: str, path: str) -> dict:
