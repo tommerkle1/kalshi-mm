@@ -11,7 +11,7 @@ max_concurrent    = 5         # max simultaneous open markets
 [risk]
 max_drawdown_pct  = 0.20      # kill switch: halt if account drops 20% from peak
 max_loss_per_hour = 10.00     # halt specific market if hourly loss exceeds $10
-position_hard_cap = 20        # absolute max contracts on one side across all markets
+position_hard_cap = 100       # absolute max contracts across all markets (5 markets × 2 sides × 10 = 100)
 
 [live]
 dry_run           = true      # ALWAYS start dry — flip to false after paper trade

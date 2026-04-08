@@ -135,28 +135,34 @@ class MMStrategy:
         NO  fill: market NO  ask (= 1 - best_yes_bid) <= our NO  bid
         """
         # YES side: we bid at open_yes_price; we fill if market ask <= our bid
+        # Guard: don't accumulate more YES than NO+1 (prevent directional blowup)
         if (state.open_yes_order_id and state.open_yes_price > 0
                 and state.best_yes_ask > 0
                 and state.best_yes_ask <= state.open_yes_price
-                and state.yes_position < self.max_pos):
+                and state.yes_position < self.max_pos
+                and state.yes_position <= state.no_position + 1):
             state.yes_position += 1
             fill = {"side": "yes", "price": state.open_yes_price, "count": 1}
             state.fills.append(fill)
             state.open_yes_order_id = None
             logger.info(f"{state.ticker}: [SIM] FILL YES @ {state.open_yes_price:.2f}"
-                        f"  (market ask={state.best_yes_ask:.2f})")
+                        f"  (market ask={state.best_yes_ask:.2f},"
+                        f"  pos: yes={state.yes_position} no={state.no_position})")
 
         # NO side: we bid at open_no_price; we fill if market NO ask <= our bid
+        # Guard: don't accumulate more NO than YES+1
         if (state.open_no_order_id and state.open_no_price > 0
                 and state.best_no_ask > 0
                 and state.best_no_ask <= state.open_no_price
-                and state.no_position < self.max_pos):
+                and state.no_position < self.max_pos
+                and state.no_position <= state.yes_position + 1):
             state.no_position += 1
             fill = {"side": "no", "price": state.open_no_price, "count": 1}
             state.fills.append(fill)
             state.open_no_order_id = None
             logger.info(f"{state.ticker}: [SIM] FILL NO  @ {state.open_no_price:.2f}"
-                        f"  (market ask={state.best_no_ask:.2f})")
+                        f"  (market ask={state.best_no_ask:.2f},"
+                        f"  pos: yes={state.yes_position} no={state.no_position})")
 
     def _maybe_requote(self, state: MarketState):
         if not self._should_quote(state):
